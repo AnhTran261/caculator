@@ -1,0 +1,52 @@
+<Window x:Class="Caculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Máy tính — C# + Python" Height="680" Width="1060"
+        MinHeight="560" MinWidth="880"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource MauNen}" FontFamily="Segoe UI" FontSize="14"
+        PreviewKeyDown="Window_PreviewKeyDown">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Menu bên trái -->
+        <Border Background="#1E293B">
+            <DockPanel Margin="12,20">
+                <StackPanel DockPanel.Dock="Top" Margin="10,0,0,24">
+                    <TextBlock Text="MÁY TÍNH" FontSize="20" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="Giao diện C# · tính toán Python" FontSize="12" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <TextBlock DockPanel.Dock="Bottom" Text="Ctrl+1 / 2 / 3 để chuyển nhanh" FontSize="12"
+                           Foreground="#64748B" Margin="10,0,0,0"/>
+
+                <StackPanel>
+                    <RadioButton x:Name="mnuPhuongTrinh" Style="{StaticResource MucMenu}" Checked="Menu_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="x²" Style="{StaticResource BieuTuongMenu}"/>
+                            <TextBlock Text="Giải phương trình"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton x:Name="mnuMayTinh" Style="{StaticResource MucMenu}" Checked="Menu_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="±" Style="{StaticResource BieuTuongMenu}"/>
+                            <TextBlock Text="Tính toán thường"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton x:Name="mnuHePT" Style="{StaticResource MucMenu}" Checked="Menu_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{}{ }" Style="{StaticResource BieuTuongMenu}"/>
+                            <TextBlock Text="Giải hệ phương trình"/>
+                        </StackPanel>
+                    </RadioButton>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Nội dung của mục đang chọn -->
+        <ContentControl x:Name="noiDung" Grid.Column="1" Margin="26,20" Focusable="False"/>
+    </Grid>
+</Window>

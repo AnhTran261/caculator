@@ -1,0 +1,103 @@
+<UserControl x:Class="Caculator.Views.HePhuongTrinhView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="NutMau" TargetType="Button" BasedOn="{StaticResource NutCoBan}">
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <EventSetter Event="Click" Handler="NutMau_Click"/>
+        </Style>
+        <Style x:Key="DongHuongDan" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource MauChuPhu}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Giải hệ phương trình" Style="{StaticResource TieuDe}"/>
+            <TextBlock Text="Mỗi dòng một phương trình. Hỗ trợ hệ tuyến tính (bậc nhất) và phi tuyến (có x², xy, √x…)."
+                       Style="{StaticResource PhuDe}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Style="{StaticResource The}" Padding="10">
+                <DockPanel>
+                    <WrapPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                        <TextBlock Text="Ví dụ:" Foreground="{StaticResource MauChuPhu}" VerticalAlignment="Center" Margin="2,0,8,0" FontSize="12"/>
+                        <Button Content="2 ẩn" Tag="2x + 3y = 7&#10;x - y = 1" Style="{StaticResource NutMau}"/>
+                        <Button Content="3 ẩn" Tag="x + y + z = 6&#10;2x - y + z = 3&#10;x + 2y - z = 2" Style="{StaticResource NutMau}"/>
+                        <Button Content="Phi tuyến" Tag="x^2 + y^2 = 25&#10;x + y = 7" Style="{StaticResource NutMau}"/>
+                        <Button Content="Vô số nghiệm" Tag="x + y = 2&#10;2x + 2y = 4" Style="{StaticResource NutMau}"/>
+                        <Button Content="Vô nghiệm" Tag="x + y = 2&#10;x + y = 3" Style="{StaticResource NutMau}"/>
+                    </WrapPanel>
+                    <TextBox x:Name="txtHe" Height="130" AcceptsReturn="True" FontSize="17" FontFamily="Cambria Math"
+                             BorderThickness="0" VerticalScrollBarVisibility="Auto" Foreground="{StaticResource MauChu}"
+                             PreviewKeyDown="TxtHe_PreviewKeyDown"
+                             Text="2x + 3y = 7&#10;x - y = 1"/>
+                </DockPanel>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource The}" Margin="12,0,0,0" Background="#F8FAFC">
+                <StackPanel>
+                    <TextBlock Text="Cách viết" FontWeight="SemiBold" Foreground="{StaticResource MauChu}" Margin="0,0,0,4"/>
+                    <TextBlock Style="{StaticResource DongHuongDan}" Text="• 2x nghĩa là 2·x, xy nghĩa là x·y"/>
+                    <TextBlock Style="{StaticResource DongHuongDan}" Text="• Lũy thừa: x^2 hoặc x²"/>
+                    <TextBlock Style="{StaticResource DongHuongDan}" Text="• Căn: sqrt(x) hoặc √x"/>
+                    <TextBlock Style="{StaticResource DongHuongDan}" Text="• Ẩn có chỉ số: x1, x2, x3 (viết x1*x2 khi nhân)"/>
+                    <TextBlock Style="{StaticResource DongHuongDan}" Text="• Thiếu dấu = thì hiểu là … = 0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12">
+            <Button x:Name="btnGiai" Content="Giải hệ  (Ctrl+Enter)" Click="BtnGiai_Click" Style="{StaticResource NutChinh}"/>
+            <Button Content="Xóa" Click="BtnXoa_Click" Margin="10,0,0,0" Style="{StaticResource NutCoBan}"/>
+            <TextBlock x:Name="lblDangTinh" Text="Đang tính…" VerticalAlignment="Center" Margin="14,0,0,0"
+                       Foreground="{StaticResource MauChuPhu}" Visibility="Collapsed"/>
+        </StackPanel>
+
+        <Border Grid.Row="3" Style="{StaticResource The}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" x:Name="lblThongBao" TextWrapping="Wrap" FontWeight="SemiBold"
+                           Foreground="{StaticResource MauChu}" Text="Nhập hệ rồi bấm “Giải hệ”."/>
+                <StackPanel DockPanel.Dock="Top" x:Name="pnlHieuLa" Margin="0,8,0,0" Visibility="Collapsed">
+                    <TextBlock Text="Máy hiểu là:" FontSize="12" Foreground="{StaticResource MauChuPhu}"/>
+                    <ItemsControl x:Name="icHieuLa">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontFamily="Cambria Math" FontSize="15"
+                                           Foreground="{StaticResource MauChu}" Margin="10,1,0,1"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+                <ListView x:Name="lvNghiem" Margin="0,10,0,0" BorderThickness="0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Bộ nghiệm" Width="85" DisplayMemberBinding="{Binding Bo}"/>
+                            <GridViewColumn Header="Ẩn" Width="60" DisplayMemberBinding="{Binding Bien}"/>
+                            <GridViewColumn Header="Dạng chính xác" Width="250" DisplayMemberBinding="{Binding ChinhXac}"/>
+                            <GridViewColumn Header="Xấp xỉ" Width="170" DisplayMemberBinding="{Binding XapXi}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>
