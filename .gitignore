@@ -1,0 +1,15 @@
+# Visual Studio / .NET build
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Office lock files
+~$*

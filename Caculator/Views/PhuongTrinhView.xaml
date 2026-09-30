@@ -1,0 +1,76 @@
+<UserControl x:Class="Caculator.Views.PhuongTrinhView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="HeSoLabel" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Foreground" Value="{StaticResource MauChuPhu}"/>
+        </Style>
+        <Style x:Key="HeSoBox" TargetType="TextBox">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="4,0"/>
+            <EventSetter Event="TextChanged" Handler="HeSo_TextChanged"/>
+            <EventSetter Event="GotKeyboardFocus" Handler="HeSo_GotFocus"/>
+            <EventSetter Event="KeyDown" Handler="HeSo_KeyDown"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Giải phương trình bậc 1 → bậc 4" Style="{StaticResource TieuDe}"/>
+            <TextBlock Text="ax⁴ + bx³ + cx² + dx + e = 0   ·   hệ số bằng 0 thì bậc tự giảm" Style="{StaticResource PhuDe}"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" Style="{StaticResource The}" Padding="12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"><TextBlock Text="a (x⁴)" Style="{StaticResource HeSoLabel}"/><TextBox x:Name="txtA" Text="1" Style="{StaticResource HeSoBox}"/></StackPanel>
+                <StackPanel Grid.Column="1"><TextBlock Text="b (x³)" Style="{StaticResource HeSoLabel}"/><TextBox x:Name="txtB" Text="0" Style="{StaticResource HeSoBox}"/></StackPanel>
+                <StackPanel Grid.Column="2"><TextBlock Text="c (x²)" Style="{StaticResource HeSoLabel}"/><TextBox x:Name="txtC" Text="-5" Style="{StaticResource HeSoBox}"/></StackPanel>
+                <StackPanel Grid.Column="3"><TextBlock Text="d (x)" Style="{StaticResource HeSoLabel}"/><TextBox x:Name="txtD" Text="0" Style="{StaticResource HeSoBox}"/></StackPanel>
+                <StackPanel Grid.Column="4"><TextBlock Text="e" Style="{StaticResource HeSoLabel}"/><TextBox x:Name="txtE" Text="4" Style="{StaticResource HeSoBox}"/></StackPanel>
+            </Grid>
+        </Border>
+
+        <TextBlock Grid.Row="2" x:Name="lblPhuongTrinh" FontSize="18" FontFamily="Cambria Math"
+                   Foreground="{StaticResource MauChu}" Margin="4,14,4,10" TextWrapping="Wrap"/>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,12">
+            <Button x:Name="btnGiai" Content="Giải phương trình" Click="BtnGiai_Click" Style="{StaticResource NutChinh}"/>
+            <Button Content="Xóa" Click="BtnXoa_Click" Margin="10,0,0,0" Style="{StaticResource NutCoBan}"/>
+            <TextBlock x:Name="lblDangTinh" Text="Đang tính…" VerticalAlignment="Center" Margin="14,0,0,0"
+                       Foreground="{StaticResource MauChuPhu}" Visibility="Collapsed"/>
+        </StackPanel>
+
+        <Border Grid.Row="4" Style="{StaticResource The}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" x:Name="lblThongBao" TextWrapping="Wrap" FontWeight="SemiBold"
+                           Foreground="{StaticResource MauChu}" Text="Nhập hệ số rồi bấm “Giải phương trình” (hoặc Enter)."/>
+                <ListView x:Name="lvNghiem" Margin="0,10,0,0" BorderThickness="0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding STT}"/>
+                            <GridViewColumn Header="Nghiệm (xấp xỉ)" Width="260" DisplayMemberBinding="{Binding GiaTri}"/>
+                            <GridViewColumn Header="Dạng chính xác" Width="220" DisplayMemberBinding="{Binding ChinhXac}"/>
+                            <GridViewColumn Header="Loại" Width="70" DisplayMemberBinding="{Binding Loai}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>
